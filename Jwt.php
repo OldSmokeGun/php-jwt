@@ -6,7 +6,7 @@
  * Time: 10:10
  */
 
-namespace app\index\lib;
+namespace app\api\lib;
 
 class Jwt
 {
@@ -62,7 +62,7 @@ class Jwt
      * 私有声明部分
      * @var
      */
-    private $pri;
+    private $pri = [];
 
     /**
      * 设置密钥
@@ -296,9 +296,11 @@ class Jwt
     /**
      * 验证 JWT
      * @param $jwt
+     * @param $secret
      * @return bool
+     * @throws \Exception
      */
-    public function validate($jwt)
+    public function validate($jwt, $secret)
     {
         $time = time();
         $parseJwt = $this->parse($jwt);
@@ -312,7 +314,7 @@ class Jwt
         $validateHeader = base64_encode(json_encode($parseJwt['header'],JSON_UNESCAPED_UNICODE));
         $validatePayload = base64_encode(json_encode($parseJwt['payload'],JSON_UNESCAPED_UNICODE));
 
-        $validateSignature = hash_hmac('sha256', $validateHeader.'.'.$validatePayload, $this->secret);
+        $validateSignature = hash_hmac('sha256', $validateHeader.'.'.$validatePayload, $secret);
 
         if ( $validateSignature !== $parseJwt['signature'] )
         {
