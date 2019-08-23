@@ -6,7 +6,7 @@
  * Time: 10:10
  */
 
-namespace app\api\lib;
+namespace Jwt;
 
 class Jwt
 {
