@@ -2,6 +2,7 @@
     "name": "old-smoke-gun/php-jwt",
     "description": "jwt for php",
     "keywords": ["php", "jwt"],
+    "license": "Apache License 2.0",
     "authors": [
         {
             "name": "oldSmokeGun",

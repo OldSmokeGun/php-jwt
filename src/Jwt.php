@@ -8,7 +8,6 @@
 
 namespace oldSmokeGun\Jwt;
 
-use phpDocumentor\Reflection\Types\This;
 
 class Jwt
 {
