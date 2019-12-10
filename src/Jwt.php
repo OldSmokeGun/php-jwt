@@ -6,263 +6,343 @@
  * Time: 10:10
  */
 
-namespace Jwt;
+namespace oldSmokeGun\Jwt;
+
+use phpDocumentor\Reflection\Types\This;
 
 class Jwt
 {
     /**
-     * 密钥
-     * @var
+     * 加密密钥
+     * @var null|string
      */
     private $secret;
 
     /**
-     * 校验错误信息
-     * @var
-     */
-    private $validateErrorMsg;
-
-    /**
      * token 类型
-     * @var string
+     * @var null|string
      */
     private $type = 'JWT';
 
     /**
      * 加密算法
-     * @var string
+     * @var null|string
      */
     private $alg = 'HS256';
 
     /**
      * 签发者
-     * @var
+     * @var null|string
      */
     private $iss;
 
     /**
-     * 接收者
-     * @var
+     * 主题
+     * @var null|string
      */
-    private $acp;
+    private $sub;
 
     /**
-     * 过期时间
-     * @var
+     * 面向用户
+     * @var null|string
+     */
+    private $aud;
+
+    /**
+     * 过期时间（单位：秒）
+     * @var null|int
      */
     private $exp;
 
     /**
-     * token 签发时间
-     * @var
+     * token 生效时间
+     * @var null|int
+     */
+    private $nbf;
+
+    /**
+     * 签发时间
+     * @var null|int
      */
     private $iat;
 
     /**
-     * 私有声明部分
-     * @var
+     * 唯一标识
+     * @var null|string
      */
-    private $pri = [];
+    private $jti;
 
     /**
-     * 设置密钥
-     * @param mixed $secret
+     * 额外数据
+     * @var null|array
      */
-    public function setSecret($secret)
+    private $extraData = [];
+
+    /**
+     * @return null|string
+     */
+    public function getSecret(): ?string
+    {
+        return $this->secret;
+    }
+
+    /**
+     * @param null|string $secret
+     *
+     * @return Jwt
+     */
+    public function setSecret(?string $secret): self
     {
         $this->secret = $secret;
         return $this;
     }
 
     /**
-     * 设置 token 类型
-     * @param $type
-     * @return $this
+     * @return null|string
      */
-    public function setType($type)
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param null|string $type
+     *
+     * @return Jwt
+     */
+    private function setType(?string $type): self
     {
         $this->type = $type;
         return $this;
     }
 
     /**
-     * 设置加密算法
-     * @param $alg
-     * @return $this
+     * @return null|string
      */
-    public function setAlg($alg)
+    public function getAlg(): ?string
+    {
+        return $this->alg;
+    }
+
+    /**
+     * @param null|string $alg
+     *
+     * @return Jwt
+     */
+    public function setAlg(?string $alg): self
     {
         $this->alg = $alg;
         return $this;
     }
 
     /**
-     * 设置签发者
-     * @param $iss
-     * @return $this
+     * @return null|string
      */
-    public function setIss($iss)
+    public function getIss(): ?string
+    {
+        return $this->iss;
+    }
+
+    /**
+     * @param null|string $iss
+     *
+     * @return Jwt
+     */
+    public function setIss(?string $iss): self
     {
         $this->iss = $iss;
         return $this;
     }
 
     /**
-     * 设置接收者
-     * @param $acp
-     * @return $this
+     * @return null|string
      */
-    public function setAcp($acp)
+    public function getSub(): ?string
     {
-        $this->acp = $acp;
+        return $this->sub;
+    }
+
+    /**
+     * @param null|string $sub
+     *
+     * @return Jwt
+     */
+    public function setSub(?string $sub): self
+    {
+        $this->sub = $sub;
         return $this;
     }
 
     /**
-     * 设置过期时间
-     * @param $exp
-     * @return $this
+     * @return null|string
      */
-    public function setExp($exp)
+    public function getAud(): ?string
+    {
+        return $this->aud;
+    }
+
+    /**
+     * @param null|string $aud
+     *
+     * @return Jwt
+     */
+    public function setAud(?string $aud): self
+    {
+        $this->aud = $aud;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getExp(): ?int
+    {
+        return $this->exp;
+    }
+
+    /**
+     * @param int|null $exp
+     *
+     * @return Jwt
+     */
+    public function setExp(?int $exp): self
     {
         $this->exp = $exp;
         return $this;
     }
 
     /**
-     * 设置签发时间
-     * @param $iat
-     * @return $this
+     * @return int|null
      */
-    public function setIat($iat)
+    public function getNbf(): ?int
+    {
+        return $this->nbf;
+    }
+
+    /**
+     * @param int|null $nbf
+     *
+     * @return Jwt
+     */
+    public function setNbf(?int $nbf): self
+    {
+        $this->nbf = $nbf;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getIat(): ?int
+    {
+        return $this->iat;
+    }
+
+    /**
+     * @param int|null $iat
+     *
+     * @return Jwt
+     */
+    private function setIat(?int $iat): self
     {
         $this->iat = $iat;
         return $this;
     }
 
     /**
-     * 设置私有声明部分
-     * @param $pri
-     * @return $this
+     * @return null|string
      */
-    public function setPri($pri)
+    public function getJti(): ?string
     {
-        $this->pri = $pri;
+        return $this->jti;
+    }
+
+    /**
+     * @param null|string $jti
+     *
+     * @return Jwt
+     */
+    private function setJti(?string $jti): self
+    {
+        $this->jti = $jti;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function getSecret()
+    public function getExtraData(): ?array
     {
-        return $this->secret;
+        return $this->extraData;
     }
 
     /**
-     * @return string
+     * @param array|null $extraData
+     *
+     * @return Jwt
      */
-    public function getType()
+    public function setExtraData(?array $extraData): self
     {
-        return $this->type;
+        $this->extraData = $extraData;
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAlg()
-    {
-        return $this->alg;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIss()
-    {
-        return $this->iss;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAcp()
-    {
-        return $this->acp;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getExp()
-    {
-        return $this->exp;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIat()
-    {
-        return $this->iat;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPri()
-    {
-        return $this->pri;
-    }
-
-    /**
-     * 设置校验失败信息
-     * @param mixed $validateErrorMsg
-     */
-    public function setValidateErrorMsg($validateErrorMsg)
-    {
-        $this->validateErrorMsg = $validateErrorMsg;
-    }
-
-    /**
-     * 获取校验失败信息
-     * @return mixed
-     */
-    public function getValidateErrorMsg()
-    {
-        return $this->validateErrorMsg;
-    }
 
     /**
      * 生成 JWT
+     *
      * @return string
+     * @throws Exception
      */
-    public function build()
+    public function build(): string
     {
-        $header = [
-            'type' => $this->type,
-            'alg' => $this->alg
-        ];
+        if ( !$this->getSecret() )
+        {
+            throw new Exception('secret must be set');
+        }
 
-        $header = base64_encode(json_encode($header, JSON_UNESCAPED_UNICODE));
+        $currentTime = time();
+        $jti         = md5(uniqid(true, true));
+
+        $this->setIat($currentTime);
+        $this->setJti($jti);
+
+        $header = [
+            'type' => $this->getType(),
+            'alg'  => strtoupper($this->getAlg())
+        ];
 
         $payload = [
-            'iss' => $this->iss,
-            'acp' => $this->acp,
-            'exp' => $this->exp,
-            'iat' => $this->iat,
-            'pri' => $this->pri
+            'iss'   => $this->getIss() ?? '',
+            'sub'   => $this->getSub() ?? '',
+            'aud'   => $this->getAud() ?? '',
+            'exp'   => $this->getExp() ?? (int) ($currentTime + 86400 * 7),
+            'nbf'   => $this->getNbf() ?? (int) ($currentTime + 60 * 5),
+            'iat'   => $this->getIat(),
+            'jti'   => $this->getJti(),
+            'extra' => $this->getExtraData() ?? []
         ];
 
-        $payload = base64_encode(json_encode($payload, JSON_UNESCAPED_UNICODE));
+        $header  = base64_encode(json_encode($header, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        $payload = base64_encode(json_encode($payload, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
 
-        switch ( strtoupper($this->alg) )
+        switch ( strtoupper($this->getAlg()) )
         {
-            case 'HS256' :
-                $signature = hash_hmac('sha256', $header.'.'.$payload, $this->secret);
+            case 'MD5' :
+
+                $signature = md5($header . '.' . $payload . $this->getSecret());
+
                 break;
+
+            case 'HS256' :
+
+                $signature = hash_hmac('sha256', $header . '.' . $payload, $this->getSecret());
+
+                break;
+
             default :
-                throw new \Exception('unsupported algorithm');
+
+                throw new Exception('Unsupported encryption algorithm');
         }
 
         $token = $header . '.' . $payload . '.' . $signature;
@@ -272,57 +352,76 @@ class Jwt
 
     /**
      * 解析 JWT
+     *
      * @param $jwt
      * @return array
      * @throws \Exception
      */
-    public function parse($jwt)
+    public function parse(string $jwt): array
     {
-        $jwt = explode('.',$jwt);
+        $jwt = explode('.', $jwt);
 
-        if ( count($jwt) !== 3 ) throw new \Exception('parse error');
+        if ( count($jwt) !== 3 )
+        {
+            throw new \Exception('parse error');
+        }
 
-        list($header, $payload, $signature) = [base64_decode($jwt[0]), base64_decode($jwt[1]), $jwt[2]];
-
-        list($header, $payload) = [json_decode($header, true), json_decode($payload, true)];
+        list($header, $payload, $signature) = [
+            json_decode(base64_decode($jwt[0]), true),
+            json_decode(base64_decode($jwt[1]), true),
+            $jwt[2]
+        ];
 
         return [
-            'header' => $header,
-            'payload' => $payload,
+            'header'    => $header,
+            'payload'   => $payload,
             'signature' => $signature
         ];
     }
 
     /**
-     * 验证 JWT
-     * @param $jwt
-     * @param $secret
-     * @return bool
-     * @throws \Exception
+     * 验证 jwt
+     *
+     * @param string $jwt
+     *
+     * @return int 0 成功 1 签名验证错误 2 token 不可用 3 token 已过期
+     * @throws Exception
      */
-    public function validate($jwt, $secret)
+    public function validate(string $jwt): int
     {
-        $time = time();
+        $time     = time();
         $parseJwt = $this->parse($jwt);
 
-        if ( $time > $parseJwt['payload']['exp'] )
+        $validateHeader  = base64_encode(json_encode($parseJwt['header'], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        $validatePayload = base64_encode(json_encode($parseJwt['payload'], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+
+        switch ( strtoupper($parseJwt['header']['alg']) )
         {
-            $this->setValidateErrorMsg('身份已过期');
-            return false;
+            case 'MD5' :
+
+                $validateSignature = md5($validateHeader . '.' . $validatePayload . $this->getSecret());
+
+                break;
+
+            case 'HS256' :
+
+                $validateSignature = hash_hmac('sha256', $validateHeader . '.' . $validatePayload, $this->getSecret());
+
+                break;
+
+            default :
+
+                throw new Exception('Unsupported encryption algorithm');
         }
 
-        $validateHeader = base64_encode(json_encode($parseJwt['header'],JSON_UNESCAPED_UNICODE));
-        $validatePayload = base64_encode(json_encode($parseJwt['payload'],JSON_UNESCAPED_UNICODE));
+        if ( (string) $validateSignature !== (string) $parseJwt['signature'] ) return 1;
 
-        $validateSignature = hash_hmac('sha256', $validateHeader.'.'.$validatePayload, $secret);
+        if ( $time < $parseJwt['payload']['nbf'] ) return 2;
 
-        if ( $validateSignature !== $parseJwt['signature'] )
-        {
-            $this->setValidateErrorMsg('身份已失效');
-            return false;
-        }
+        if ( $time > $parseJwt['payload']['exp'] ) return 3;
 
-        return true;
+
+        return 0;
     }
 
 }
