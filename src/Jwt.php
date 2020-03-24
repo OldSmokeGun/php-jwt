@@ -109,7 +109,7 @@ class Jwt
      *
      * @return Jwt
      */
-    private function setType(?string $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
         return $this;
@@ -242,7 +242,7 @@ class Jwt
      *
      * @return Jwt
      */
-    private function setIat(?int $iat): self
+    public function setIat(?int $iat): self
     {
         $this->iat = $iat;
         return $this;
@@ -261,7 +261,7 @@ class Jwt
      *
      * @return Jwt
      */
-    private function setJti(?string $jti): self
+    public function setJti(?string $jti): self
     {
         $this->jti = $jti;
         return $this;
