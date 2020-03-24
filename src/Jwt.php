@@ -301,10 +301,7 @@ class Jwt
         }
 
         $currentTime = time();
-        $jti         = md5(uniqid(true, true));
-
-        $this->setIat($currentTime);
-        $this->setJti($jti);
+        $jti         = md5(time().uniqid(true, true));
 
         $header = [
             'type' => $this->getType(),
@@ -317,8 +314,8 @@ class Jwt
             'aud'   => $this->getAud() ?? '',
             'exp'   => $this->getExp() ?? (int) ($currentTime + 86400 * 7),
             'nbf'   => $this->getNbf() ?? (int) ($currentTime + 60 * 5),
-            'iat'   => $this->getIat(),
-            'jti'   => $this->getJti(),
+            'iat'   => $this->getIat() ?? $currentTime,
+            'jti'   => $this->getJti() ?? $jti,
             'extra' => $this->getExtraData() ?? []
         ];
 
